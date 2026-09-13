@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老许聊实体-AI×实体洞察月报 2026年08月</title>
+<style>
+:root{
+  --bg:#100f0e; --paper:#161513; --ink:#ece8e1; --muted:#9b968c;
+  --hair:#2b2926; --hair-soft:#211f1c;
+  --seal:#c0392b; --seal-soft:rgba(192,57,43,.13);
+  --serif:Georgia,"Times New Roman","Songti SC","Noto Serif SC","SimSun",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.78;-webkit-text-size-adjust:100%}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px 84px}
+
+/* 刊头 */
+.masthead{text-align:center;padding:56px 0 26px;border-bottom:1px solid var(--hair)}
+.masthead .kicker{font-family:var(--serif);font-size:12.5px;letter-spacing:.42em;color:var(--muted)}
+.masthead h1{font-family:var(--serif);font-weight:700;font-size:34px;letter-spacing:.05em;margin:16px 0 0;color:#fbfaf7}
+.masthead .hair-seal{width:52px;height:3px;background:var(--seal);margin:16px auto}
+.masthead .dateline{font-size:13.5px;color:var(--muted);letter-spacing:.12em}
+.back-home{display:inline-block;margin-top:22px;font-size:13px;letter-spacing:.12em;color:var(--ink);
+  text-decoration:none;border:1px solid var(--hair);padding:8px 18px;transition:border-color .2s,color .2s}
+.back-home:hover{border-color:var(--seal);color:var(--seal)}
+
+/* 导语 */
+.lede{font-family:var(--serif);font-size:18px;line-height:1.95;color:var(--ink);
+  margin:36px 0 4px;padding-left:16px;border-left:3px solid var(--seal)}
+
+/* 区块 */
+.sec{margin-top:48px}
+.sec-kick{font-family:var(--serif);font-size:12.5px;letter-spacing:.34em;color:var(--seal);font-weight:700;margin:0 0 6px}
+.sec-title{font-family:var(--serif);font-size:23px;font-weight:700;color:#fbfaf7;margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid var(--hair)}
+
+/* 数据看板：报纸式数字条 */
+.figs{display:flex;flex-wrap:wrap;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.fig{flex:1;min-width:118px;padding:18px 12px;text-align:center;border-left:1px solid var(--hair)}
+.fig:first-child{border-left:none}
+.fig b{display:block;font-family:var(--serif);font-size:30px;line-height:1.1;color:var(--seal)}
+.fig span{font-size:12.5px;color:var(--muted)}
+
+/* 条形 */
+.bar{display:flex;align-items:center;gap:14px;margin:12px 0}
+.bar .lab{width:128px;flex-shrink:0;font-size:13.5px;color:var(--ink)}
+.bar .track{flex:1;height:9px;background:#20201e;border-radius:0;overflow:hidden}
+.bar .fill{height:100%;background:var(--seal)}
+.bar .num{width:80px;text-align:right;font-size:12.5px;color:var(--muted);flex-shrink:0}
+
+/* 三大主线：编辑式条目 */
+.theme{display:flex;gap:18px;padding:18px 0;border-top:1px solid var(--hair)}
+.theme:first-of-type{border-top:none}
+.theme .no{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--seal);flex-shrink:0;width:30px;line-height:1.2}
+.theme .ttl{font-family:var(--serif);font-size:17px;font-weight:700;color:#fbfaf7;margin:0 0 5px}
+.theme .desc{font-size:13px;color:var(--muted);margin:0 0 10px}
+.theme .rep{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--hair-soft);align-items:flex-start}
+.theme .rep .dot{flex-shrink:0;width:7px;height:7px;border-radius:50%;background:var(--seal);margin-top:8px}
+.theme .rep a{color:var(--ink);text-decoration:none;font-size:13.5px;line-height:1.55}
+.theme .rep a:hover{color:var(--seal);text-decoration:underline}
+.theme .rep .meta{color:var(--muted);font-size:11.5px;margin-top:2px}
+
+/* 清单行（立即行动 / 国产替代） */
+.row{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--hair);align-items:flex-start}
+.row:first-of-type{border-top:none}
+.row .mark{flex-shrink:0;width:9px;height:9px;border-radius:50%;background:var(--seal);margin-top:8px}
+.row .body{flex:1}
+.row a{color:var(--ink);text-decoration:none;font-size:14px;line-height:1.55}
+.row a:hover{color:var(--seal);text-decoration:underline}
+.row .meta{color:var(--muted);font-size:12px;margin-top:3px}
+.alt-group{margin:16px 0 4px}
+.alt-name{display:inline-block;font-size:13px;font-weight:700;color:#f0c9a0;
+  border:1px solid rgba(192,140,80,.4);padding:3px 11px;margin-bottom:6px;letter-spacing:.04em}
+.alt-note{color:var(--muted);font-size:13px;line-height:1.9;margin-bottom:6px}
+
+/* 研判层：客观事实 vs 主观研判 严格分离、视觉区分 */
+.judge-sec{margin-top:8px}
+.risk-lede{font-size:13.5px;color:var(--muted);line-height:1.9;margin:6px 0 18px;padding-left:14px;border-left:3px solid var(--seal)}
+.judge{margin:22px 0;padding:18px 0;border-top:1px solid var(--hair)}
+.judge:first-of-type{border-top:none}
+.judge .j-h{font-family:var(--serif);font-size:18px;font-weight:700;color:#fbfaf7;margin:0 0 12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.judge .j-tag{flex-shrink:0;font-family:var(--sans);font-size:11px;letter-spacing:.12em;color:#f0c9a0;border:1px solid rgba(192,140,80,.45);padding:2px 9px}
+.judge .j-fact{font-size:13.5px;color:var(--muted);line-height:1.85;margin:0 0 12px;padding-left:14px;border-left:3px solid #3a3833}
+.judge .j-view{font-size:14.5px;color:var(--ink);line-height:1.9;margin:0;padding:12px 14px;background:var(--seal-soft);border-left:3px solid var(--seal)}
+.judge .j-view b{color:#f0c9a0;font-weight:700}
+.j-sub{font-family:var(--serif);font-size:15.5px;font-weight:700;color:var(--seal);margin:32px 0 6px;letter-spacing:.04em}
+.les{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--hair);align-items:flex-start}
+.les:first-of-type{border-top:none}
+.les .ln{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--seal);flex-shrink:0;width:26px;line-height:1.2}
+.les .lt{font-size:13.8px;color:var(--ink);line-height:1.85}
+.les .lt b{color:#f0c9a0}
+.fc{margin:16px 0;padding:16px 18px;border:1px solid var(--hair);background:rgba(255,255,255,.015)}
+.fc .fc-h{font-family:var(--serif);font-size:13px;letter-spacing:.18em;color:var(--seal);font-weight:700;margin:0 0 8px}
+.fc .fc-sig{font-size:13.5px;color:#f0b6ae;margin:0 0 10px;line-height:1.7}
+.fc .fc-do{font-size:14px;color:var(--ink);line-height:1.85;margin:0 0 9px}
+.fc .fc-do b{color:#f0c9a0}
+.fc .fc-pos{font-size:13px;color:var(--muted);line-height:1.8;margin:0;padding-left:14px;border-left:3px solid #3a3833}
+.fc .fc-pos b{color:#f0c9a0}
+
+.footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--hair);
+  text-align:center;color:var(--muted);font-size:12.5px;letter-spacing:.08em}
+
+@media (max-width:560px){
+  .wrap{padding:0 16px 64px}
+  .masthead{padding:40px 0 22px}
+  .masthead h1{font-size:26px}
+  .fig{min-width:45%}
+  .bar .lab{width:96px}
+  .theme{flex-direction:column;gap:8px}
+  .theme .no{width:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  
+<div class="masthead">
+  <div class="kicker">老许聊实体 · 内部参阅</div>
+  <h1>AI × 实体洞察月报</h1>
+  <div class="hair-seal"></div>
+  <div class="dateline">2026年08月 · 给实体经营者的月度行动回顾</div>
+  <div><a class="back-home" href="../index.html">← 返回首页</a></div>
+</div>
+
+<p class="lede">本月共出报 19 期，精选 315 条；🤖 智能体与自动化 是本月最热赛道，行动以「小成本试用」为主。</p>
+
+<div class="sec">
+  <p class="sec-kick">OVERVIEW</p>
+  <h2 class="sec-title">本月数据看板</h2>
+  <div class="figs">
+    <div class="fig"><b>19</b><span>出报天数</span></div>
+    <div class="fig"><b>315</b><span>实体精选条数</span></div>
+    <div class="fig"><b>3899</b><span>筛掉的无关资讯</span></div>
+    <div class="fig"><b>18</b><span>立即行动</span></div>
+    <div class="fig"><b>152</b><span>小成本试用</span></div>
+    <div class="fig"><b>143</b><span>观望</span></div>
+  </div>
+</div>
+
+<div class="sec">
+  <p class="sec-kick">ACTION</p>
+  <h2 class="sec-title">行动分级分布</h2>
+  <div class="bar"><span class="lab">立即行动</span><div class="track"><div class="fill" style="width:5.7%"></div></div><span class="num">18</span></div><div class="bar"><span class="lab">小成本试用</span><div class="track"><div class="fill" style="width:48.3%"></div></div><span class="num">152</span></div><div class="bar"><span class="lab">观望</span><div class="track"><div class="fill" style="width:45.4%"></div></div><span class="num">143</span></div><div class="bar"><span class="lab">暂不考虑</span><div class="track"><div class="fill" style="width:0.6%"></div></div><span class="num">2</span></div>
+</div>
+
+<div class="sec">
+  <p class="sec-kick">TRACK</p>
+  <h2 class="sec-title">赛道热度榜</h2>
+  <div class="bar"><span class="lab">🤖 智能体与自动化</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="num">91 条</span></div><div class="bar"><span class="lab">🎬 视频生成</span><div class="track"><div class="fill" style="width:73%"></div></div><span class="num">66 条</span></div><div class="bar"><span class="lab">🏪 平台与商业模式</span><div class="track"><div class="fill" style="width:57%"></div></div><span class="num">52 条</span></div><div class="bar"><span class="lab">🧠 大模型与API</span><div class="track"><div class="fill" style="width:54%"></div></div><span class="num">49 条</span></div><div class="bar"><span class="lab">🖼️ 图像生成</span><div class="track"><div class="fill" style="width:24%"></div></div><span class="num">22 条</span></div><div class="bar"><span class="lab">✍️ 文本与内容</span><div class="track"><div class="fill" style="width:23%"></div></div><span class="num">21 条</span></div><div class="bar"><span class="lab">🏛️ 政策与宏观</span><div class="track"><div class="fill" style="width:11%"></div></div><span class="num">10 条</span></div><div class="bar"><span class="lab">📦 其他</span><div class="track"><div class="fill" style="width:4%"></div></div><span class="num">4 条</span></div>
+</div>
+
+<div class="sec judge-sec">
+  <p class="sec-kick">ANALYSIS · 第三方视角</p>
+  <h2 class="sec-title">研判层：观点 · 沉淀 · 预判</h2>
+  <div class="risk-lede">以下为主观研判，与上方「数据看板 / 赛道热度」等客观事实严格分离；每条判断均绑定本月真实数据，仅供参考，不构成经营决策。</div>
+  <p class="j-sub">▍ 本月三条核心判断（观点）</p>
+  <div class="judge"><div class="j-h"><span class="j-tag">研判</span><span>赛道重心：本月最热是「智能体与自动化」</span></div><p class="j-fact"><b>客观依据 ·</b> 本月最热赛道「智能体与自动化」91 条，第二「视频生成」66 条。</p><p class="j-view"><b>核心观点 ·</b> 本月 AI 落地重心正从「内容生成」切到「流程自动化」。对实体老板，省人力的工具比做营销内容先一步成熟——优先拿排班、客服、库存这类重复活试自动化，比再雇人划算。</p></div><div class="judge"><div class="j-h"><span class="j-tag">研判</span><span>信息密度：约 4214 条里只筛出 315 条</span></div><p class="j-fact"><b>客观依据 ·</b> 本月进入筛选的 AI 资讯约 4214 条，最终入选 315 条（筛选率约 7%）。</p><p class="j-view"><b>核心观点 ·</b> 对实体老板真正有用的 AI 资讯，平均一天就一两条。别为海量未筛选的 AI 新闻焦虑——盯本站的精选就够了，省下的时间用来落地。</p></div><div class="judge"><div class="j-h"><span class="j-tag">研判</span><span>成熟度：绝大多数 AI 能力「能看不能用」</span></div><p class="j-fact"><b>客观依据 ·</b> 精选 315 条里，真正「立即行动」仅 18 条（6%），其余多为试用或观望。</p><p class="j-view"><b>核心观点 ·</b> 别被日更焦虑裹挟：筛选比盲动重要，每月真正值得你动手的就那十来条。多数事拖成观望也活得好。</p></div>
+  <p class="j-sub">▍ 沉淀 · 实体老板该记住的 3 条规律</p>
+  <div class="les"><div class="ln">1</div><div class="lt">本月「立即行动」仅占 <b>6%</b>——记住：每天刷到的 AI 新闻 90% 与你无关，能落地的凤毛麟角。少看热闹、多挑能用的，比焦虑更重要。</div></div><div class="les"><div class="ln">2</div><div class="lt">国产 / 平替工具本月被点名 <b>37</b> 个、已成主流——记住：同类需求优先选国内合规工具，少踩跨境卡脖子与合规的坑。</div></div><div class="les"><div class="ln">3</div><div class="lt">内容生成类仍热但已卷、自动化类在升——记住：红利正从「会生成」转向「能落地」，你的投入要从「买工具」转向「改流程」。</div></div>
+  <p class="j-sub">▍ 预判 · 下月信号与准备（可能性）</p>
+  <div class="fc"><div class="fc-h">信号</div><p class="fc-sig">▸ 「智能体与自动化」赛道下月大概率继续升温、工具迭代最快（本月 91 条居首）。</p><p class="fc-do"><b>准备动作 ·</b> 本月就选 1 个高频重复工作流试起来，别等「更完美」的版本——早试早知道坑在哪。</p><p class="fc-pos"><b>可能性 ·</b> 若平台顺势推出「AI 店铺 / AI 经营」类工具（收租模式），先免费试用、别提前年付绑定。</p></div><div class="fc"><div class="fc-h">信号</div><p class="fc-sig">▸ 平台免费 AI 功能会逐步收紧或转向收费（本行业普遍规律）。</p><p class="fc-do"><b>准备动作 ·</b> 现在就把核心顾客数据导出留底、关键流程别只绑一家平台，避免被规则变动卡住。</p><p class="fc-pos"><b>可能性 ·</b> 若平台带头收紧，早做数据留底与多平台分散的，反而更稳。</p></div><div class="fc"><div class="fc-h">信号</div><p class="fc-sig">▸ 国产 / 平替工具本月被提及 37 个、已成主流。</p><p class="fc-do"><b>准备动作 ·</b> 同类需求优先选国内合规工具，降低被卡脖子与跨境合规风险。</p><p class="fc-pos"><b>可能性 ·</b> 若海外工具进一步受限或涨价，国产平替会补位加速——提前摸底不吃亏。</p></div>
+</div>
+
+<div class="sec">
+  <p class="sec-kick">DO NOW</p>
+  <h2 class="sec-title">立即行动清单</h2>
+  <div class="row"><span class="mark"></span><div class="body"><a href="https://tech.meituan.com/2026/07/28/CatPaw-LongCat.html" target="_blank" rel="noopener">美团正式发布 CatPaw：全场景 AI Agent，从个人提效到企业智能化</a><div class="meta">美团技术团队 · 正式可用 · 餐饮、零售、生活服务</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://x.com/Khazix0918/status/2087368423089254771" target="_blank" rel="noopener">我们经常会感觉，AI 已经这么火了，可是在我日常中，跟很多别的行业的朋友们聊，大家总是会天然的觉得，用 AI，是一件很难的事情。 有很多人，不敢开始。 包括其实我日常被问的最多的问题，也是类似的： ...</a><div class="meta">数字生命卡兹克(@Khazix0918) · 正式可用 · 通用办公</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA==&amp;mid=2647685084&amp;idx=1&amp;sn=0899296dbc140eeb745f7a99f9d5ed9c" target="_blank" rel="noopener">从0开始，12步学会用好AI。</a><div class="meta">数字生命卡兹克 · 正式可用 · 通用办公</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://www.qbitai.com/2026/08/473144.html" target="_blank" rel="noopener">百度文库网盘「库库AI」AI办公MAU超2500万，新推办公独立端</a><div class="meta">量子位 · 正式可用 · 通用办公</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://x.com/vista8/status/2089207792427045075" target="_blank" rel="noopener">豆包客户端最近改造，也是工作任务优先了。 简单测试下，体验跟Codex很像，内置生图、浏览器控制，执行很快，竟有点超预期。 另外整合不少飞书能力，一句话生成网站并分享，Cli 创建飞书文档、PPT...</a><div class="meta">向阳乔木(@vista8) · 正式可用 · 通用办公</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://x.com/dotey/status/2089590302910587116" target="_blank" rel="noopener">豆包越来越像 Codex 了，这是我最近用下来最直观的感受。Codex 一直是我心里 Agent App 体验的标杆，而豆包这波更新，从 GUI 电脑操作到手机远程操控，很多设计思路都能看到 Code...</a><div class="meta">宝玉(@dotey) · 正式可用 · 通用办公</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://www.qbitai.com/2026/08/474803.html" target="_blank" rel="noopener">今日起，阿里“千问办公”接入企业微信</a><div class="meta">量子位 · 正式可用 · 通用办公</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://x.com/berryxia/status/2089601111384633730" target="_blank" rel="noopener">鹅厂的企业微信“遥遥领先”，居然支持可以在企业微信接入自建的Agent ！ 包括了 Wordkbuddy ，DSH、Minmax Code等。 真的太超前了😂</a><div class="meta">Berryxia.AI(@berryxia) · 正式可用 · 通用办公</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653112280&amp;idx=1&amp;sn=018485d37aae72b4256de573a6bf2691" target="_blank" rel="noopener">中小企业拥抱 AI 的最佳方式，是照抄大厂的作业</a><div class="meta">极客公园 · 正式可用 · 生活服务、餐饮、零售</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://mp.weixin.qq.com/s?__biz=MzU3NjE4NjQ4MA==&amp;mid=2247557077&amp;idx=1&amp;sn=e2ea3c83c8df0d6308de76d7dbb4ba4e" target="_blank" rel="noopener">豆包这波算是GUI Agent玩明白了，操作电脑无比丝滑～</a><div class="meta">大模型智能 · 正式可用 · 通用办公</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://mp.weixin.qq.com/s?__biz=MzA4MTQ4NjQzMw==&amp;mid=2652809324&amp;idx=1&amp;sn=dfbaa75e774d622508d778b334ce1c30" target="_blank" rel="noopener">深度体验豆包工作48小时，我发现通用Agent搞不定的企业场景，它有了新解法</a><div class="meta">智东西 · 正式可用 · 通用办公、零售、餐饮</div></div></div><div class="row"><span class="mark"></span><div class="body"><a href="https://tech.meituan.com/2026/08/20/01-meituan-Query-3.0.html" target="_blank" rel="noopener">美团搜索3.0：LLM 语义表征在排序模型的探索与应用</a><div class="meta">美团技术团队 · 正式可用 · 餐饮、零售、生活服务</div></div></div>
+</div>
+
+<div class="sec">
+  <p class="sec-kick">LOCAL</p>
+  <h2 class="sec-title">国产替代地图</h2>
+  <div class="alt-note">本月共提及 <b style="color:#f0c9a0">37</b> 个国产/平替工具，以下为被引用最多的 12 个：</div><div class="alt-group"><span class="alt-name">🔧 即梦</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/berryxia/status/2087121689993707681" target="_blank" rel="noopener">有意思，Seedance 2.5 的 prompt 精选集来了，小白也能直接抄作业 @lifesinger 玉伯老 丢了一份： Seedance 2.5 prompts 精选集 https://t...</a><div class="meta">Berryxia.AI(@berryxia)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/lifesinger/status/2087111085476245757" target="_blank" rel="noopener">Seedance 2.5 prompts 精选集 普通小白终于也能做有趣的各种视频了 马上获取 👇 https://t.co/6XlH306DDx</a><div class="meta">Frank Wang 玉伯(@lifesinger)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/lifesinger/status/2087153298243735616" target="_blank" rel="noopener">一个人活成了一支团队 强烈推荐</a><div class="meta">Frank Wang 玉伯(@lifesinger)</div></div></div><div class="meta" style="color:var(--muted)">…等共 35 条提及</div></div><div class="alt-group"><span class="alt-name">🔧 豆包</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://blog.google/innovation-and-ai/products/gemini-app/one-billion-monthly-users/" target="_blank" rel="noopener">More than 1 billion people are using the Gemini app every month.</a><div class="meta">The Keyword (blog.google)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA==&amp;mid=2647685084&amp;idx=1&amp;sn=0899296dbc140eeb745f7a99f9d5ed9c" target="_blank" rel="noopener">从0开始，12步学会用好AI。</a><div class="meta">数字生命卡兹克</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/Khazix0918/status/2087601177496277115" target="_blank" rel="noopener">Grok 4.6这次真的很不错，直接怒氪300刀的会员了，现在买300刀的SuperGrok Heavy，还能白嫖Cursor Ultra，这就很香。。。。</a><div class="meta">数字生命卡兹克(@Khazix0918)</div></div></div><div class="meta" style="color:var(--muted)">…等共 35 条提及</div></div><div class="alt-group"><span class="alt-name">🔧 可灵</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/berryxia/status/2087121689993707681" target="_blank" rel="noopener">有意思，Seedance 2.5 的 prompt 精选集来了，小白也能直接抄作业 @lifesinger 玉伯老 丢了一份： Seedance 2.5 prompts 精选集 https://t...</a><div class="meta">Berryxia.AI(@berryxia)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/lifesinger/status/2087111085476245757" target="_blank" rel="noopener">Seedance 2.5 prompts 精选集 普通小白终于也能做有趣的各种视频了 马上获取 👇 https://t.co/6XlH306DDx</a><div class="meta">Frank Wang 玉伯(@lifesinger)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/FinanceYF5/status/2087376012443349293" target="_blank" rel="noopener">Grok Imagine 已经不再只是一个图片生成器了。 Image 2.0 可以精细编辑照片、组合 5 张参考图、渲染清晰文字、调整任意尺寸，还能去除背景。 它现在已经是一个真正的创意工具了。 ...</a><div class="meta">AI Will(@FinanceYF5)</div></div></div><div class="meta" style="color:var(--muted)">…等共 24 条提及</div></div><div class="alt-group"><span class="alt-name">🔧 通义千问</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/Khazix0918/status/2087601177496277115" target="_blank" rel="noopener">Grok 4.6这次真的很不错，直接怒氪300刀的会员了，现在买300刀的SuperGrok Heavy，还能白嫖Cursor Ultra，这就很香。。。。</a><div class="meta">数字生命卡兹克(@Khazix0918)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&amp;mid=2247561885&amp;idx=1&amp;sn=c2debdbc284ae35755f55e1f301d8376" target="_blank" rel="noopener">千问AI Arena上线：给Agent一个真实的战场</a><div class="meta">阿里云开发者</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/omarsar0/status/2087949444272558282" target="_blank" rel="noopener">Gemini 3.7 Flash is here! Improved capabilities for long-horizon software engineering tasks, but al...</a><div class="meta">elvis(@omarsar0)</div></div></div><div class="meta" style="color:var(--muted)">…等共 15 条提及</div></div><div class="alt-group"><span class="alt-name">🔧 通义听悟</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://deepmind.google/blog/intelligent-transcription-with-gemini-3-5-transcribe/" target="_blank" rel="noopener">Intelligent transcription with Gemini 3.5 Transcribe</a><div class="meta">Google DeepMind Blog</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/" target="_blank" rel="noopener">Intelligent transcription with Gemini 3.5 Transcribe</a><div class="meta">The Keyword (blog.google)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/berryxia/status/2092773574016962757" target="_blank" rel="noopener">哈哈！简直了，真的AI圈就是天天神仙打架！！ 谷歌转写刚发完，6 分钟后有人把 Whisper 也免费了。 @GoogleAIStudio 17:04 推 Gemini 3.5 Transcrib...</a><div class="meta">Berryxia.AI(@berryxia)</div></div></div><div class="meta" style="color:var(--muted)">…等共 13 条提及</div></div><div class="alt-group"><span class="alt-name">🔧 剪映</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/lifesinger/status/2087153298243735616" target="_blank" rel="noopener">一个人活成了一支团队 强烈推荐</a><div class="meta">Frank Wang 玉伯(@lifesinger)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/HeyGen/status/2088340177894969378" target="_blank" rel="noopener">A real estate agent grew his Instagram 4x in 10 months and now reaches 770k+ people a month. Our CM...</a><div class="meta">HeyGen(@HeyGen_Official)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/oran_ge/status/2088418325949010320" target="_blank" rel="noopener">Pika 一口气放出4款声音模型，重点发力音频领域，主打超高性价比 Pika Soundtrack，视频配音模型，上传视频就能自动配音，配乐，配音效，价格是同行的一半 Pika Speech，文生音...</a><div class="meta">orange.ai(@oran_ge)</div></div></div><div class="meta" style="color:var(--muted)">…等共 11 条提及</div></div><div class="alt-group"><span class="alt-name">🔧 讯飞听见</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/berryxia/status/2092773574016962757" target="_blank" rel="noopener">哈哈！简直了，真的AI圈就是天天神仙打架！！ 谷歌转写刚发完，6 分钟后有人把 Whisper 也免费了。 @GoogleAIStudio 17:04 推 Gemini 3.5 Transcrib...</a><div class="meta">Berryxia.AI(@berryxia)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/berryxia/status/2092772094979486206" target="_blank" rel="noopener">卧槽，刷到 Gemini 3.5，一堆人以为 Pro 终于来了。 @GoogleAIStudio 昨天甩出来的是 Gemini 3.5 Transcribe。语音转文字，Live 一条、录播一条，8...</a><div class="meta">Berryxia.AI(@berryxia)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/googleaidevs/status/2092659736797933839" target="_blank" rel="noopener">🗣️💬 Say hello to Gemini 3.5 Transcribe, a speech-to-text model that actually understands your code...</a><div class="meta">Google AI Developers(@googleaidevs)</div></div></div><div class="meta" style="color:var(--muted)">…等共 10 条提及</div></div><div class="alt-group"><span class="alt-name">🔧 Coze</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/lennysan/status/2087241423792087518" target="_blank" rel="noopener">I got early access to Grok Bot and I'm hooked. I haven't been this excited about a new AI product i...</a><div class="meta">Lenny Rachitsky(@lennysan)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/mntruell/status/2087226192512626848" target="_blank" rel="noopener">Grok Bot is out now! An early step towards capable, delightful digital colleagues.</a><div class="meta">Michael Truell(@mntruell)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/TheRundownAI/status/2087234442263658568" target="_blank" rel="noopener">NEW: SpaceXAI released Grok Bot in beta, AI teammates that get their own cloud computer, can sign i...</a><div class="meta">The Rundown AI(@TheRundownAI)</div></div></div><div class="meta" style="color:var(--muted)">…等共 8 条提及</div></div><div class="alt-group"><span class="alt-name">🔧 Kimi</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/Khazix0918/status/2087368423089254771" target="_blank" rel="noopener">我们经常会感觉，AI 已经这么火了，可是在我日常中，跟很多别的行业的朋友们聊，大家总是会天然的觉得，用 AI，是一件很难的事情。 有很多人，不敢开始。 包括其实我日常被问的最多的问题，也是类似的： ...</a><div class="meta">数字生命卡兹克(@Khazix0918)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA==&amp;mid=2647685084&amp;idx=1&amp;sn=0899296dbc140eeb745f7a99f9d5ed9c" target="_blank" rel="noopener">从0开始，12步学会用好AI。</a><div class="meta">数字生命卡兹克</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/petergyang/status/2089068517979283639" target="_blank" rel="noopener">Ten minutes of talking gives Riley 80% of the diagrams that he shares in his videos. From @rileybro...</a><div class="meta">Peter Yang(@petergyang)</div></div></div><div class="meta" style="color:var(--muted)">…等共 6 条提及</div></div><div class="alt-group"><span class="alt-name">🔧 腾讯智影</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/HeyGen/status/2087219003685208256" target="_blank" rel="noopener">Introducing HeyGen for Real Estate. Three video formats built for agents. Type what your market nee...</a><div class="meta">HeyGen(@HeyGen_Official)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/HeyGen/status/2088340177894969378" target="_blank" rel="noopener">A real estate agent grew his Instagram 4x in 10 months and now reaches 770k+ people a month. Our CM...</a><div class="meta">HeyGen(@HeyGen_Official)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/HeyGen/status/2089392320173207594" target="_blank" rel="noopener">ICYMI: July raised the ceiling on what you can make in HeyGen. • 30 minute avatar takes in a single...</a><div class="meta">HeyGen(@HeyGen_Official)</div></div></div><div class="meta" style="color:var(--muted)">…等共 5 条提及</div></div><div class="alt-group"><span class="alt-name">🔧 美图</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/lovart_ai/status/2087143887001247811" target="_blank" rel="noopener">Claude + Lovart might be the best combo for e-commerce right now. Claude turns your product facts i...</a><div class="meta">LovartAI(@lovart_ai)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/berryxia/status/2090821803698536702" target="_blank" rel="noopener">木子的全面的文生图 太全面了。</a><div class="meta">Berryxia.AI(@berryxia)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/berryxia/status/2092782549009576379" target="_blank" rel="noopener">免费最强设计AI工具，就是它！！！ Google Stich 我推荐过好多次！强推！！ 很多人自己 coding 的时候，说自己设计的 UI 丑，没办法做出漂亮的 UI。 其实对于普通人来说，最简...</a><div class="meta">Berryxia.AI(@berryxia)</div></div></div></div><div class="alt-group"><span class="alt-name">🔧 DeepSeek</span><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://x.com/op7418/status/2087582937395147196" target="_blank" rel="noopener">SpaceX AI 发布了 Grok 4.6 模型，然后价格还行，每百万输入输出分别为 2 和 6 美元。 当然，如果你有 Twitter 的 Premium+的会员的话，依然可以通过 Grok B...</a><div class="meta">歸藏(guizang.ai)(@op7418)</div></div></div><div class="row" style="padding:8px 0"><span class="mark" style="background:#d9a86a"></span><div class="body"><a href="https://mp.weixin.qq.com/s?__biz=MzU3Mjk1OTQ0Ng==&amp;mid=2247538155&amp;idx=1&amp;sn=0a7a2d25ea8fdaf469cf3a289a35fba4" target="_blank" rel="noopener">中国大模型的奥德修斯时刻</a><div class="meta">晚点LatePost</div></div></div></div>
+</div>
+
+<div class="footer">老许聊实体 · 2026年08月月度总结 · 数据来自本月 19 期日报自动聚合</div>
+
+</div>
+</body>
+</html>

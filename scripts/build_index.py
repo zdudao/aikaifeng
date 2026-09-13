@@ -66,6 +66,48 @@ def parse_date(path: str):
     return m.groups() if m else None
 
 
+def parse_monthly(path: str):
+    m = re.search(r"monthly-(\d{4})-(\d{2})\.html$", path.replace("\\", "/"))
+    return m.groups() if m else None
+
+
+# 月度总结入口：扫描 news-data/monthly-*.html，作为「历史日报」导航下方的补充区块
+# 月报页面自身不带侧栏，所以这里同时给首页与所有日报注入入口，方便读者发现
+MONTHLY_STYLE = """
+<style>
+.mm-nav{margin:14px 4px 0;padding:10px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px}
+.mm-title{color:#c0392b;font-size:12.5px;font-weight:600;letter-spacing:.5px;margin-bottom:6px;display:block}
+.mm-list{display:flex;flex-direction:column;gap:4px}
+.mm-link{color:#9aa7c7;font-size:13px;text-decoration:none;padding:4px 10px;border-radius:6px;border:1px solid transparent;transition:all .15s}
+.mm-link:hover{background:rgba(192,57,43,.12);color:#fff}
+@media (max-width:860px){
+  .mm-list{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .mm-link{flex-shrink:0;border:1px solid #2a2a2a}
+}
+</style>
+"""
+
+
+def monthly_block(prefix: str) -> str:
+    """生成「📊 月度总结」侧栏区块。prefix 与 arc-nav 一致：首页用 'news-data/'，日报用 ''。"""
+    items = []
+    for f in sorted(glob.glob("news-data/monthly-*.html"), reverse=True):
+        d = parse_monthly(f)
+        if d:
+            items.append((d[0], d[1], os.path.basename(f).replace("\\", "/")))
+    if not items:
+        return ""
+    links = "".join(
+        f'<a class="mm-link" href="{prefix}{fn}">{y}年{int(mo)}月 月报</a>'
+        for y, mo, fn in items
+    )
+    return MONTHLY_STYLE + (
+        f'<div class="mm-nav" id="mm-nav">'
+        f'<span class="mm-title">📊 月度总结</span>'
+        f'<div class="mm-list">{links}</div></div>'
+    )
+
+
 # 旧版日报补注入"行动分级"导航时附带的样式与脚本（与 html_render.py 一致）
 ADV_STYLE = """
 <style>
@@ -490,11 +532,16 @@ def nav_html(prefix: str, home: str, files: list[str], current: str) -> str:
         f'<div class="arc-nav" id="arc-nav">'
         f'<div class="arc-head"><span class="arc-title">📅 历史日报</span>'
         f'<a class="arc-home" href="{home}">🏠 返回首页</a></div>'
-        f'{render(items[:MAX_VISIBLE])}'
+        f'<div class="arc-list">{render(items[:MAX_VISIBLE])}</div>'
     )
     if len(items) > MAX_VISIBLE:
-        body += f"<details class=\"arc-more\"><summary>更早日报 ▾</summary>{render(items[MAX_VISIBLE:])}</details>"
+        body += (
+            f'<details class="arc-more"><summary>更早日报 ▾</summary>'
+            f'<div class="arc-list">{render(items[MAX_VISIBLE:])}</div>'
+            f"</details>"
+        )
     body += "</div>"
+    body += monthly_block(prefix)
     return NAV_STYLE + body
 
 
