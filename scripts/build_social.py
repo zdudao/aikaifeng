@@ -1028,11 +1028,18 @@ def build(date_str: str | None, top: int, do_shot: bool, scale: int,
     out_dir.mkdir(parents=True, exist_ok=True)
     WORK_DIR.mkdir(parents=True, exist_ok=True)
 
-    # 社媒一天只发几条，优先挑中文标题的：英文标题卡在抖音图文上观感很差
+    # 挑图口径必须和日报的推荐档一致，否则会出现"封面写能立刻动手 N 条、
+    # 翻进去一条都不是"的矛盾。双键排序：先按行动档
+    # （立即行动→小成本→观望→暂不跟进），同一档里再优先中文标题。
+    # —— 英文标题卡在抖音图文上观感很差，但绝不该为了中文标题把"立即行动"挤掉。
     def _zh_n(t: str) -> int:
         return sum(1 for ch in t if "\u4e00" <= ch <= "\u9fff")
 
-    picks = sorted(data["items"], key=lambda r: (0 if _zh_n(r["title"]) >= 6 else 1))
+    picks = sorted(
+        data["items"],
+        key=lambda r: (ADV_ORDER.get(r["cls"], 9),
+                       0 if _zh_n(r["title"]) >= 6 else 1),
+    )
     picks = picks[:max(1, top)]
 
     pages: list[tuple[str, str]] = [
@@ -1080,18 +1087,27 @@ def build(date_str: str | None, top: int, do_shot: bool, scale: int,
     rpt_wx = out_dir / "审核报告-公众号.md"
     rpt_wx.write_text(md_wx, encoding="utf-8")
 
-    print("\n" + "=" * 46)
+    # 体检结论放在整段输出的最后压轴，并尽量醒目：
+    # 这是整屏信息里唯一"看到就该停下手"的内容，不能被上面的进度日志淹没。
+    print("\n" + "!" * 52)
+    print("  体检结果（发布前请看这一段）")
+    print("-" * 52)
     if p0_dy:
-        print("⛔ 抖音合规体检：发现高危项，改完再发")
+        print(f"⛔ 抖音：发现 {len(p0_dy)} 项高危，建议先别发")
         for h in p0_dy:
-            print(f"   · {h['where']} 命中「{h['word']}」 → {h['why']}")
+            print(f"   · {h['where']} 命中「{h['word']}」")
+            print(f"     为什么：{h['why']}")
     else:
-        print("✅ 抖音合规体检：通过（可直接发布）")
+        print("✅ 抖音：通过（可直接发布）")
+    if quote_manual:
+        print(f"⚠️ 有 {len(quote_manual)} 处没有现成替换、保持原样，发布前扫一眼：")
+        for h in quote_manual[:5]:
+            print(f"   · {h['where']}：{h['word']}")
     print(f"   固定文案命中 {len(hits_dy)} 处｜自动改写 {len(quote_fixed)} 处"
           f"｜需人工看 {len(quote_manual)} 处")
-    print(f"   报告：{rpt_dy}")
-    print(f"         {rpt_wx}")
-    print("=" * 46)
+    print(f"   完整报告：{rpt_dy}")
+    print(f"             {rpt_wx}")
+    print("!" * 52)
 
     # 抖音发布文案：人工发布时直接粘贴（标题 + 正文，省得再想）
     cap = douyin_caption(data, picks)
@@ -1202,6 +1218,11 @@ p.hint{{color:{C_MUTED};font-size:13.5px;margin:0 0 20px;line-height:2}}
 
     if strict and p0_dy:
         sys.exit("⛔ --strict 模式：存在未处理高危项，已中止。")
+
+    # 非 strict 模式：不改内容、照常出图（发不发由人决定），但用退出码 3 告诉外面
+    # "有高危项"——好让一键脚本把窗口停住。这条最该看的提醒不能被倒计时吃掉。
+    if p0_dy:
+        sys.exit(3)
 
 
 def main() -> None:

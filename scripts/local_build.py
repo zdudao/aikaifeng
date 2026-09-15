@@ -6,7 +6,11 @@
   抖音图文 / 公众号文章 / 发布文案 / 合规报告一律在本机生成 ——
   卡片截图依赖中文字体与浏览器，本机环境可控，不必再去赌云端那台 Linux。
 
-入口是项目根目录的「生成今日素材.bat」，双击即可，无需任何参数。
+用法：
+  双击项目根目录的「生成今日素材.bat」      无参数 = 最新一期
+  python scripts/local_build.py             最新一期
+  python scripts/local_build.py 2026-09-10  补以前某一天
+  python scripts/local_build.py --no-open   只生成、不弹窗口
 """
 from __future__ import annotations
 
@@ -25,8 +29,9 @@ SOCIAL_DIR = DATA_DIR / "social"
 SITE = "https://zdudao.github.io/aikaifeng/news-data"
 BJ = timezone(timedelta(hours=8))
 UA = {"User-Agent": "Mozilla/5.0 (local-build)"}
-KEEP_DAYS = 60          # 本机素材保留天数，超期自动清掉
+KEEP_DAYS = 0           # 素材保留天数：0 = 永不自动清理（理由见 prune 的说明）
 LOOKBACK = 8            # 线上往前找几天的日报
+RC_WARN = 3             # build_social.py 的退出码：出图成功但有合规高危项
 
 
 def log(m: str = "") -> None:
@@ -37,6 +42,12 @@ def log(m: str = "") -> None:
 
 def _day_file(day: str) -> Path:
     return DATA_DIR / f"daily-{day}.html"
+
+
+def _have(day: str) -> bool:
+    """本地是否已有一份完整可用的当日日报。"""
+    p = _day_file(day)
+    return p.exists() and p.stat().st_size > 5000
 
 
 def _local_days() -> list[str]:
@@ -52,7 +63,7 @@ def _local_days() -> list[str]:
 def _download(day: str) -> bool:
     """从网站把某一天的日报拉下来。本地已有则跳过。"""
     dst = _day_file(day)
-    if dst.exists() and dst.stat().st_size > 5000:
+    if _have(day):
         return False
     try:
         req = urllib.request.Request(f"{SITE}/daily-{day}.html", headers=UA)
@@ -69,14 +80,29 @@ def _download(day: str) -> bool:
     return True
 
 
-def sync() -> str:
-    """返回接下来要用的日期：优先今天，没有就往前找。"""
+def sync(want: str | None = None) -> str:
+    """确定这次生成哪一天。
+
+    want 有值 → 就用它（补历史素材），本地没有就从网站拉；
+    want 为空 → 从今天往前找最新一期。
+    """
+    if want:
+        log(f"① 指定日期：{want}（补以前那天的素材）")
+        if _have(want):
+            log(f"   · {want} 的日报本地已有")
+            return want
+        if _download(want):
+            return want
+        log(f"   ❌ 拿不到 {want} 的日报：本地没有，线上也没有。")
+        log("      确认一下这天有没有出过日报。")
+        sys.exit(1)
+
     log("① 从网站同步最新日报")
     today = datetime.now(BJ).date()
     day = ""
     for back in range(LOOKBACK):
         cand = (today - timedelta(days=back)).isoformat()
-        if _day_file(cand).exists():
+        if _have(cand):
             log(f"   · {cand} 本地已有")
             day = cand
             break
@@ -99,21 +125,28 @@ def sync() -> str:
 
 # ============================ ② 生成素材 ============================
 
-def run_build(day: str) -> None:
+def run_build(day: str) -> int:
+    """调用生成器，返回它的退出码（0 正常 / 3 有高危项）。"""
     log(f"② 生成 {day} 的素材（抖音图文 + 公众号文章 + 发布文案 + 合规体检）")
     r = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "build_social.py"), day],
         cwd=str(ROOT),
     )
-    if r.returncode != 0:
+    if r.returncode not in (0, RC_WARN):
         log()
         log("❌ 生成过程出错，把上面的提示截图发出来。")
         sys.exit(r.returncode)
+    return r.returncode
 
 
 def prune() -> None:
-    """清掉超过 KEEP_DAYS 天的素材：图片很占地方，本机也别无限堆。"""
-    if not SOCIAL_DIR.exists():
+    """清理过期素材。默认（KEEP_DAYS = 0）什么都不删。
+
+    早先设 60 天，是为了别把网站撑大；现在图片只存本机、不上传，
+    这个理由已经不存在，而本地删掉就是永久丢失（云端没有备份）。
+    想限制占用，把 KEEP_DAYS 改成正数即可。
+    """
+    if KEEP_DAYS <= 0 or not SOCIAL_DIR.exists():
         return
     cut = (datetime.now(BJ).date() - timedelta(days=KEEP_DAYS)).isoformat()
     gone = []
@@ -146,24 +179,38 @@ def open_path(p: Path) -> None:
         log(f"   · 自动打开失败（{e}），你可以手动打开：{p}")
 
 
+def parse_argv() -> tuple[str | None, bool]:
+    """认两种参数：日期（补历史）和 --no-open；看不懂的忽略并说明。"""
+    want, no_open = None, False
+    for a in sys.argv[1:]:
+        if a == "--no-open":
+            no_open = True
+        elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", a):
+            want = a
+        else:
+            log(f"   ⚠️ 看不懂这个参数，已忽略：{a}")
+    return want, no_open
+
+
 def main() -> None:
     os.chdir(ROOT)
-    log("=" * 48)
+    log("=" * 52)
     log("  老许聊实体 · 今日抖音图文 / 公众号文章")
-    log("=" * 48)
+    log("=" * 52)
 
     if not DATA_DIR.exists():
         log("❌ 找不到 news-data 目录，确认这个脚本在项目的 scripts 文件夹里。")
         sys.exit(1)
 
-    day = sync()
+    want, no_open = parse_argv()
+    day = sync(want)
     log()
-    run_build(day)
+    rc = run_build(day)
     prune()
 
     out_dir = SOCIAL_DIR / day
     log()
-    if "--no-open" in sys.argv:          # 只想生成、不想弹窗口时用
+    if no_open:                          # 只想生成、不想弹窗口时用
         log("③ 跳过自动打开（--no-open）")
     else:
         log("③ 打开取图页和图片文件夹")
@@ -171,12 +218,22 @@ def main() -> None:
         open_path(out_dir)
 
     log()
-    log("-" * 48)
+    log("-" * 52)
     log(f"✅ 完成。{day} 的图片在：")
     log(f"   {out_dir}")
     log("   浏览器里打开的页面可以复制抖音发布文案；")
     log("   图片拖进微信「文件传输助手」就能发到手机。")
-    log("-" * 48)
+    log("-" * 52)
+
+    if rc == RC_WARN:
+        log()
+        log("!" * 52)
+        log("⛔ 提醒：抖音体检发现了高危项（见上面「体检结果」那一段）。")
+        log("   按说好的规矩，内容照常生成、发不发由你定；")
+        log("   但建议先照着体检报告改掉再发，更稳。")
+        log("!" * 52)
+        log("   这个窗口不会自动关，看清楚再关掉就行。")
+        sys.exit(RC_WARN)
 
 
 if __name__ == "__main__":
