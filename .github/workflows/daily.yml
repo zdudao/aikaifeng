@@ -1,5 +1,11 @@
 # 每日自动生成 AI 实体洞察日报并发布到仓库 + GitHub Pages
 # cron: UTC 05:00 = 北京时间 13:00
+#
+# 分工（2026-09-15 定）：
+#   云端 → 只负责「当天日报 + 月末月报」，产出直接上线网站；
+#   本机 → 抖音图文 / 公众号文章 / 发布文案 / 合规报告，双击「生成今日素材.bat」本地生成。
+#   之所以把图文挪下云端：卡片截图依赖中文字体与浏览器，本机环境可控，
+#   云端 Linux 得额外装字体、关沙箱，多一个必须赌的环节。
 name: daily-report
 
 on:
@@ -50,34 +56,6 @@ jobs:
             echo ">>> 非月末($Y-$M-$D)，跳过月报生成"
           fi
 
-      # 卡片截图要靠浏览器渲染，中文靠系统字体：云端的 Linux 机器默认没有中文字体，
-      # 不装这一步，截出来的图会是满屏方框。
-      - name: Install CJK fonts (for card screenshots)
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk
-
-      # 抖音图文 + 公众号文章 + 发布前合规体检报告（只生成，不发布；发布由老许手动完成）
-      # 加 continue-on-error：截图失败也不该拖垮当天的日报主线
-      - name: Build social content (douyin cards + wechat article)
-        continue-on-error: true
-        run: uv run python scripts/build_social.py --top 3
-
-      # 素材是图片，长期堆积会把仓库撑大；只保留最近 60 天，旧的连预览页一起清掉
-      - name: Prune old social assets (keep 60 days)
-        run: |
-          CUTOFF=$(date -d "60 days ago" +%Y-%m-%d)
-          echo ">>> 保留 $CUTOFF 之后的素材"
-          for dir in news-data/social/*/; do
-            [ -d "$dir" ] || continue
-            b=$(basename "$dir")
-            case "$b" in
-              [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])
-                if [[ "$b" < "$CUTOFF" ]]; then
-                  echo "   清理 $b"
-                  rm -rf "$dir" "news-data/social-$b.html" "news-data/wechat-$b.html"
-                fi ;;
-            esac
-          done
-
       - name: Build Pages index (latest report + history nav + monthly links)
         run: uv run python scripts/build_index.py
 
@@ -85,10 +63,8 @@ jobs:
         run: |
           git config user.name "ai-daily-bot"
           git config user.email "ai-daily-bot@users.noreply.github.com"
-          git add -f config.json news-data/daily-*.html news-data/score-log-*.md index.html scripts/build_index.py scripts/build_monthly.py scripts/build_social.py
+          git add -f config.json news-data/daily-*.html news-data/score-log-*.md index.html scripts/build_index.py scripts/build_monthly.py scripts/build_social.py scripts/local_build.py
           # 月末生成的月报（无则忽略，已提交的历史月报不影响）
           git add -f news-data/monthly-*.html 2>/dev/null || true
-          # 图文素材 / 公众号文章 / 合规报告；-A 同时记录上面删掉的老素材
-          git add -A -f news-data/social news-data/social-*.html news-data/wechat-*.html 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: daily report $(date +%F)"
           git push
