@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI×实体日报 · 09/14｜今天 13 条，没有一条值得你立刻动手</title>
+<style>
+body{margin:0;background:#F5F4F0;font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB","Noto Sans SC","Noto Sans CJK SC","WenQuanYi Zen Hei","DejaVu Sans",sans-serif;color:#22221F;
+  line-height:1.75;font-size:16px}
+.wrap{max-width:700px;margin:0 auto;padding:40px 26px 72px}
+.masthead{border-bottom:2px solid #22221F;padding-bottom:14px;margin-bottom:8px;
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.masthead .b{font-family:"Source Han Serif SC","Noto Serif SC","Noto Serif CJK SC","Songti SC","SimSun","AR PL UMing CN",serif;font-weight:700;font-size:19px;letter-spacing:.5px}
+.masthead .d{font-size:13px;color:#7C7A73;letter-spacing:2px}
+h1.art{font-family:"Source Han Serif SC","Noto Serif SC","Noto Serif CJK SC","Songti SC","SimSun","AR PL UMing CN",serif;font-weight:700;font-size:34px;line-height:1.35;
+  margin:30px 0 18px}
+.lede{font-size:16px;color:#4A4944;border-left:4px solid #C0392B;
+  padding:4px 0 4px 16px;margin:22px 0 8px}
+.stats{display:flex;gap:22px;margin:26px 0 8px;padding:18px 0;
+  border-top:1px solid #DEDCD5;border-bottom:1px solid #DEDCD5}
+.stats .n{font-family:"Source Han Serif SC","Noto Serif SC","Noto Serif CJK SC","Songti SC","SimSun","AR PL UMing CN",serif;font-weight:700;font-size:26px;color:#C0392B;line-height:1.1}
+.stats .t{font-size:12.5px;color:#7C7A73;margin-top:4px}
+h2.grp{font-family:"Source Han Serif SC","Noto Serif SC","Noto Serif CJK SC","Songti SC","SimSun","AR PL UMing CN",serif;font-weight:700;font-size:22px;margin:44px 0 6px;
+  padding-left:12px;border-left:4px solid #C0392B}
+.grp-note{font-size:13px;color:#7C7A73;margin-bottom:18px;padding-left:16px}
+.item{padding:20px 0;border-bottom:1px solid #E6E4DE}
+.item:last-child{border-bottom:none}
+.item h3{font-family:"Source Han Serif SC","Noto Serif SC","Noto Serif CJK SC","Songti SC","SimSun","AR PL UMing CN",serif;font-weight:700;font-size:18.5px;line-height:1.5;margin:0 0 8px}
+.item h3 a{color:#22221F;text-decoration:none}
+.meta{font-size:13px;color:#7C7A73;margin-bottom:12px}
+.meta .pill{display:inline-block;border:1px solid #C0392B;color:#C0392B;
+  border-radius:3px;padding:1px 8px;margin-right:8px;font-size:12px}
+.meta .pill.try{border-color:#B98A2E;color:#9A6E1C}
+.meta .pill.watch{border-color:#B4B2AB;color:#7C7A73}
+.line{margin:8px 0;font-size:15.5px}
+.line b{color:#C0392B;font-weight:700}
+.line.act b{color:#9A6E1C}
+.ins{background:#EFEEE8;border-radius:6px;padding:12px 16px;margin:12px 0;
+  font-size:15px;color:#3A3934}
+.ins b{color:#22221F}
+.zero{padding:16px 0;font-size:14.5px;color:#7C7A73}
+.foot{margin-top:50px;padding-top:24px;border-top:2px solid #22221F;
+  font-size:14px;color:#4A4944;line-height:2}
+.foot b{color:#22221F}
+</style></head>
+<body>
+<button id="cpall" onclick="cpAll(this)">📋 复制全文 → 粘贴到公众号编辑器</button>
+<a id="back" href="../index.html">← 返回首页</a>
+<script>
+function cpAll(btn){
+  var w = document.querySelector('.wrap');
+  var r = document.createRange(); r.selectNodeContents(w);
+  var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e) { ok = false; }
+  s.removeAllRanges();
+  var old = btn.textContent;
+  btn.textContent = ok ? '✅ 已复制，去公众号编辑器粘贴' : '⚠️ 复制失败，请手动全选复制';
+  setTimeout(function(){ btn.textContent = old; }, 2600);
+}
+</script>
+<style>
+#cpall{position:fixed;right:18px;bottom:18px;z-index:99;font-family:inherit;
+  font-size:14px;padding:11px 18px;border:0;border-radius:8px;cursor:pointer;
+  background:#C0392B;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+#back{position:fixed;right:18px;bottom:62px;z-index:99;font-size:13px;
+  color:#7C7A73;background:#fff;border:1px solid #DDD9D0;border-radius:8px;
+  padding:7px 14px;text-decoration:none}
+@media (max-width:760px){
+  #cpall{right:12px;bottom:12px;font-size:13px;padding:10px 14px}
+  #back{right:12px;bottom:56px}
+}
+</style>
+<div class="wrap">
+  <div class="masthead">
+    <span class="b">老许聊实体 · AI×实体洞察日报</span>
+    <span class="d">2026-09-14</span>
+  </div>
+  <h1 class="art">AI×实体日报 · 09/14｜今天 13 条，没有一条值得你立刻动手</h1>
+  <div class="lede"><b>今日头条 · </b>美团智播——数字人直播技术创新与实践</div>
+  <div class="stats"><div><div class="n">13</div><div class="t">今日精选</div></div><div><div class="n">0</div><div class="t">立即行动</div></div><div><div class="n">8</div><div class="t">小成本试用</div></div><div><div class="n">5</div><div class="t">观望</div></div></div>
+  <h2 class="grp">小成本试用 · 8 条</h2><div class="grp-note">可低成本试错，验证是否适合自己</div><div class="item"><h3>美团智播——数字人直播技术创新与实践</h3><div class="meta"><span class="pill try">小成本试用</span>美团技术团队　·　餐饮、零售、生活服务</div><div class="line"><b>一句话判断：</b>美团智播不是帮你省主播工资的工具，是把你的商品、价格和客户数据全收进美团池子的鱼饵——省下的是人力，交出去的是定价权。</div><div class="line act"><b>可以怎么做：</b>先拿一家店、一个月两千块预算、只播午市晚市的引流套餐券试一个月，主推爆品和会员体系一概不上，数据归谁写清楚再签。</div></div><div class="item"><h3>GPT-6 Astra 独立完成了整段视频的剪辑</h3><div class="meta"><span class="pill try">小成本试用</span>AI Will(@FinanceYF5)　·　餐饮、零售、生活服务</div><div class="line"><b>一句话判断：</b>这事的真价值不在&#x27;AI能剪片&#x27;，在于它想把你的素材库和出片节奏一起搬走——开封老板先用免费剪映榨干自家素材，别为一条推文掏外汇。</div><div class="line act"><b>可以怎么做：</b>先别掏钱买那洋工具，把手机里攒的素材丢进剪映，自己剪三条发抖音；一个月省下外包剪辑的钱，再谈要不要升级。</div><div class="ins"><b>实体洞察：</b>AI能独立剪完一段完整视频，这对需要天天发抖音、拍探店视频的餐饮零售店是个真需求。但别急着为海外工具付费——剪映的自动字幕、成片功能，可灵的AI视频生成，国内免费就能做出类似的探店和产品短视频。先用剪映试一个月，看看能不能省下外包剪辑的钱再说。</div></div><div class="item"><h3>ChatGPT Images 2.5来了：这次，其他生图模型真的要紧张了</h3><div class="meta"><span class="pill try">小成本试用</span>创业邦　·　零售、餐饮</div><div class="line"><b>一句话判断：</b>这功能真正值钱的只有一句『改一处不乱全图』，但访问境外服务和美元卡两道坎一横，它跟开封老板的直接关系就等于零——即梦、豆包已经能覆盖你八成需求。</div><div class="line act"><b>可以怎么做：</b>甭急着绑美元卡订ChatGPT，先用即梦或豆包把美团头图、菜单、价目表重做一版；真要精修，就找本地上门代做的，按张给钱，一张五块到十块，别包年、别包月、别把素材全交出去。</div></div><div class="item"><h3>How smart? This smart. “GPT-Image 2.5, help me arrange the flowers.”</h3><div class="meta"><span class="pill try">小成本试用</span>LovartAI(@lovart_ai)　·　零售、餐饮</div><div class="line"><b>一句话判断：</b>能力是真的，但这条推特跟开封老板没关系——能干活的免费国产工具就在他手机里，别为海外的壳掏钱。</div><div class="line act"><b>可以怎么做：</b>老板，别下啥Lovart，今儿个就打开豆包，把招牌菜拍一张，写一句&#x27;红底、有食欲、带价格&#x27;做美团头图，能用立马换上；出不来效果再找老王，一张控制50块以内。</div><div class="ins"><b>实体洞察：</b>新图像模型能按一句中文指令完成插花这类精细设计，对需要做菜单图、新品海报、商品主图的餐饮零售店是有用的能力。但别为海外工具付费——国内即梦、豆包的AI生图免费就能做同类海报和商品图。先在国产工具里试，能不能出效果一目了然。</div></div><div class="item"><h3>美团正式发布 CatPaw：全场景 AI Agent，从个人提效到企业智能化</h3><div class="meta"><span class="pill try">小成本试用</span>美团技术团队　·　餐饮、零售、生活服务</div><div class="line">美团发布全场景 AI Agent 平台 CatPaw，内置本地生活行业专家与技能，支持数字员工。</div></div><div class="item"><h3>豆包大战WorkBuddy，受伤的是WPS？</h3><div class="meta"><span class="pill try">小成本试用</span>人人都是产品经理　·　通用办公</div><div class="line"><b>一句话判断：</b>这场大厂打架跟开封老板的成本账基本无关，真正要防的是&#x27;免费工作台&#x27;把店里数据锁进大厂生态。</div><div class="line act"><b>可以怎么做：</b>手机上下个免费的豆包或元宝，先让它帮你写文案、整表格，一分钱别花；可客户名单、进货价这种命根子，一个字都别往上传，也别买任何&#x27;企业版&#x27;。</div></div><div class="item"><h3>请收下，看了就会的9个AI办公技巧</h3><div class="meta"><span class="pill try">小成本试用</span>刘润　·　通用办公</div><div class="line"><b>一句话判断：</b>这不是什么新商机，是别人白送的一把刀——拿去砍外包费可以，拿它换公司的底价和客户名单就是赔本。</div><div class="line act"><b>可以怎么做：</b>老板，别自己学，把下一份标书或招商PPT甩给店里会用电脑的那个年轻人，让他用DeepSeek加Kimi先干一版，你只花俩钟头看结果行不行；一分钱的课都别买。</div></div><div class="item"><h3>GPT-6 Astra 已经不只是会写代码了。 它开始制作游戏、剪辑电影、设计 3D 物体，还能连续自主工作数天。 10 个惊艳案例：</h3><div class="meta"><span class="pill try">小成本试用</span>AI Will(@FinanceYF5)　·　通用办公</div><div class="ins"><b>实体洞察：</b>这条汇总了GPT-6 Astra能连续自主工作数天、做视频、做3D、做游戏的十个案例，代表通用AI能力又上了一个台阶。对实体店来说，真正能用上的只有&#x27;做营销素材&#x27;和&#x27;处理杂活&#x27;这两块，而这两块国产的豆包、剪映、可灵都免费。建议用国产工具先试，不必为海外订阅掏钱。</div></div><h2 class="grp">观望 · 5 条</h2><div class="grp-note">有前景但不成熟，先跟踪</div><div class="item"><h3>Anthropic 放了个视频 演示 CLaude Tag 怎么帮工程师值夜班….. 晚上 11点，支付接口的出错率冲破 2%，值班工程师被报警叫醒 结果她还没打开电脑，CLaude 已经在查了 ...</h3><div class="meta"><span class="pill watch">观望</span>小互(@imxiaohu)　·　通用办公</div><div class="line"><b>一句话判断：</b>这是演给有研发团队的大厂看的戏，开封实体老板一个都接不住，但平台&#x27;免费养数据、锁入口&#x27;的套路要认。</div></div><div class="item"><h3>Perplexity trusts GPT-6 Astra with end-to-end systems</h3><div class="meta"><span class="pill watch">观望</span>OpenAI News　·　通用办公</div><div class="line"><b>一句话判断：</b>这是卖给大厂的军火，不是开封老板的锄头——能不碰就别碰，等它掉进钉钉和 WPS 那天再上手。</div></div><div class="item"><h3>源：</h3><div class="meta"><span class="pill watch">观望</span>AI Will(@FinanceYF5)　·　生活服务、零售</div><div class="line"><b>一句话判断：</b>这不是按分钟计费的生意,是按数据出境和信任成本计价的——开封老板现在为海外语音 API 花钱,是拿合规风险换一个豆包免费就能干的事。</div></div><div class="item"><h3>OpenAI刚刚干掉了语音Agent最尴尬的停顿。 GPT-Live-1可以同时听和说，支持随时打断，每分钟只要0.05美元。 真正自然的语音Agent，终于来了。</h3><div class="meta"><span class="pill watch">观望</span>AI Will(@FinanceYF5)　·　生活服务、零售</div><div class="line">推文称OpenAI新语音模型解决了Agent对话停顿问题，每分钟0.05美元。</div></div><div class="item"><h3>1/ 语音Agent终于可以像真人一样边听边说了。 GPT-Live-1近日已开放API，可以把ChatGPT自然流畅的对话体验接入应用，并搭配开发者选择的模型和Harness。</h3><div class="meta"><span class="pill watch">观望</span>AI Will(@FinanceYF5)　·　生活服务、零售</div><div class="line"><b>一句话判断：</b>这东西现在不是给开封店主用的，是给能写代码的中间商用的：你掏钱开接口，转售商赚差价，数据进人家的库。</div></div>
+  <div class="foot">
+    <b>完整日报每天更新</b>，按「立即行动 / 小成本试用 / 观望」分档，
+    每条都带一句判断和一句行动建议。<br>
+    抖音：<b>@老许聊实体</b>　｜　微信：<b>xuyang2946</b>
+  </div>
+</div></body></html>

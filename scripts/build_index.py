@@ -88,6 +88,55 @@ MONTHLY_STYLE = """
 """
 
 
+def parse_social(path: str):
+    m = re.search(r"social-(\d{4})-(\d{2})-(\d{2})\.html$", path.replace("\\", "/"))
+    return m.groups() if m else None
+
+
+# 图文素材入口：扫描 news-data/social-*.html（抖音图文预览页）
+# 这条通道是给「发布的人」用的，读者不关心，所以放侧栏最底部、只列最近几期
+SOCIAL_STYLE = """
+<style>
+.sc-nav{margin:10px 4px 0;padding:10px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px}
+.sc-title{color:#8a8880;font-size:12.5px;font-weight:600;letter-spacing:.5px;margin-bottom:6px;display:block}
+.sc-list{display:flex;flex-direction:column;gap:4px}
+.sc-link{color:#8a8880;font-size:13px;text-decoration:none;padding:4px 10px;border-radius:6px;transition:all .15s}
+.sc-link:hover{background:rgba(192,57,43,.12);color:#fff}
+.sc-new{color:#c0392b;font-size:11px;margin-left:6px}
+@media (max-width:860px){
+  .sc-list{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .sc-link{flex-shrink:0;border:1px solid #2a2a2a}
+}
+</style>
+"""
+
+
+def social_block(prefix: str, limit: int = 5) -> str:
+    """生成「📱 图文素材」侧栏区块。prefix 与 arc-nav 一致：首页 'news-data/'，日报 ''。"""
+    files = sorted(glob.glob("news-data/social-*.html"), reverse=True)[:limit]
+    items = []
+    for f in files:
+        d = parse_social(f)
+        if d:
+            items.append((f"{d[0]}-{d[1]}-{d[2]}",
+                          f"{int(d[1])}/{int(d[2])}",
+                          os.path.basename(f).replace("\\", "/")))
+    if not items:
+        return ""
+    newest = items[0][0]
+    links = "".join(
+        f'<a class="sc-link" href="{prefix}{fn}">{label} 图文'
+        + ('<span class="sc-new">最新</span>' if key == newest else "")
+        + "</a>"
+        for key, label, fn in items
+    )
+    return SOCIAL_STYLE + (
+        f'<div class="sc-nav" id="sc-nav">'
+        f'<span class="sc-title">📱 图文素材（发布取图用）</span>'
+        f'<div class="sc-list">{links}</div></div>'
+    )
+
+
 def monthly_block(prefix: str) -> str:
     """生成「📊 月度总结」侧栏区块。prefix 与 arc-nav 一致：首页用 'news-data/'，日报用 ''。"""
     items = []
@@ -542,6 +591,7 @@ def nav_html(prefix: str, home: str, files: list[str], current: str) -> str:
         )
     body += "</div>"
     body += monthly_block(prefix)
+    body += social_block(prefix)
     return NAV_STYLE + body
 
 
